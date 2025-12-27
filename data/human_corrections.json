@@ -1,0 +1,7 @@
+[
+  {
+    "vendor": "ABC Pvt Ltd",
+    "pattern": "Service Period",
+    "targetField": "serviceDate"
+  }
+]
