@@ -1,20 +1,9 @@
-import { getVendorMemories, VendorMemory } from "../memory/vendorMemory";
+import { getVendorMemories } from "../memory/vendorMemory";
 
 export function recall(invoice: any) {
-  const memories = getVendorMemories(invoice.vendor);
+  if (!invoice?.vendor || !invoice?.rawText) return [];
 
-  for (const m of memories) {
-    if (
-      typeof m.pattern === "string" &&
-      invoice.rawText.includes(m.pattern)
-    ) {
-      return {
-        field: m.targetField,
-        confidence: m.confidence,
-        source: "memory"
-      };
-    }
-  }
-
-  return null;
+  return getVendorMemories(invoice.vendor).filter((m) =>
+    invoice.rawText.includes(m.pattern)
+  );
 }

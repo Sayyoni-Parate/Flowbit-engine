@@ -1,27 +1,26 @@
-// export function apply(invoice: any, memories: any[], audit: any[]) {
-//   const proposedCorrections: string[] = [];
+export function apply(invoice: any, memories: any[], audit: any[]) {
+  const suggestions: any[] = [];
 
-//   for (const mem of memories) {
-//     if (mem.confidence >= 0.7) {
-//       invoice.fields[mem.targetField] = "AUTO_FILLED";
+  if (!invoice?.fields) return suggestions;
 
-//       proposedCorrections.push(
-//         `Filled ${mem.targetField} using '${mem.pattern}'`
-//       );
+  for (const memory of memories) {
+    const field = memory.targetField;
 
-//       audit.push({
-//         step: "apply",
-//         timestamp: new Date().toISOString(),
-//         details: `Applied vendor memory ${mem.pattern}`
-//       });
-//     }
-//   }
+    if (invoice.fields[field] == null) {
+      suggestions.push({
+        field,
+        value: "AUTO_FILLED",
+        reason: `Vendor memory: '${memory.pattern}' → ${field}`,
+        confidence: memory.confidence
+      });
 
-//   return proposedCorrections;
-// }
+      audit.push({
+        step: "apply",
+        timestamp: new Date().toISOString(),
+        details: `Suggested ${field} from vendor memory`
+      });
+    }
+  }
 
-export function apply(invoice: any, memoryResult: any, audit: any[]) {
-  if (!memoryResult) return;
-
-  invoice[memoryResult.field] = "AUTO_FILLED";
+  return suggestions;
 }
