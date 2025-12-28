@@ -1,61 +1,115 @@
-#Flowbit-engine
+🧠 Memory-Driven Learning Engine for Invoice Automation
+--
 
-This project implements an AI system for automating invoice processing using a memory-driven learning layer. The system learns from past human corrections, vendor-specific patterns, and discrepancies, improving accuracy and reducing the need for human intervention.
+Flowbit AI 
+-
 
-#Key Features:
+Demonstrating Learned Memory in Intelligent Agent Systems
 
-Vendor-Specific Memory: Stores patterns and insights for each vendor.
+Tech Stack: TypeScript (strict) · Node.js · SQLite
+--
+Focus: Explainable, persistent learning from human corrections
 
-Correction Memory: Learns from repeated corrections (e.g., tax or quantity mismatches).
+🚀 Overview
+---
 
-Resolution Memory: Tracks how discrepancies were resolved (human-approved or rejected).
+This project implements a memory-driven learning layer for invoice automation systems.
 
-Confidence Scoring: Adjusts confidence in decisions based on learned memory.
+Instead of treating every invoice as a new input, the system learns from past human corrections (vendor patterns, recurring fixes) and applies those learnings to future invoices—safely, explainably, and with full auditability.
 
-Audit Trail: Logs every step of the process for traceability.
+⚠️ OCR and extraction accuracy are assumed.
+----
+This project focuses purely on post-extraction intelligence.
 
-Learning Over Time: Improves decision-making as it processes more invoices.
+🎯 What This Demonstrates
 
-#Demo
+✅ Learning from human corrections
 
-Invoice #1 (Before Learning): The system flags issues and requests human review.
+✅ Persistent memory across runs
 
-Invoice #2 (After Learning): The system applies learned memory to make smarter decisions with fewer flags.
+✅ Vendor-specific behavior
 
-#How It Works:
+✅ Confidence-based decision making
 
-Recall Memory: Retrieve relevant memories based on vendor data.
+✅ Explainable & auditable reasoning
 
-Apply Memory: Suggest and apply corrections using learned patterns.
+✅ Clear improvement over time (demo-driven)
 
-Decide: Automatically approve, correct, or escalate for human review with reasoning.
+🧩 Core Concepts
+-----
+🔹 Memory Types
 
-Learn: Update memory with human corrections for future invoices.
+Vendor Memory
+Learns vendor-specific patterns (e.g. "Leistungsdatum" → serviceDate)
 
-Output: Returns a JSON with normalized invoice data, corrections, confidence score, reasoning, and audit trail.
+Correction Memory (scaffolded)
+Tracks repeated correction strategies
 
-#Installation
+Resolution Memory (scaffolded)
+Tracks approval vs rejection outcomes
 
-##Clone the repository:
+🔹 Decision Logic
 
-git clone https://github.com/Sayyoni-Parate/Flowbit-engine.git
+Memory is always consulted before decisions
+
+Low-confidence memory is suggested, not blindly applied
+
+Human review is required when confidence is insufficient
+
+Learning is reinforced gradually (no hard jumps)
+
+🏗️ High-Level Architecture
+------
+<img width="352" height="341" alt="image" src="https://github.com/user-attachments/assets/f570ef0f-1bb4-4bf8-b964-411d796c7cda" />
 
 
-##Install dependencies:
+📂 Project Structure
+------
+<img width="575" height="406" alt="image" src="https://github.com/user-attachments/assets/ff5a313a-e5c9-46ff-9396-80b8102dea32" />
+
+
+🧪 Demo: Learning Over Time (Key Requirement)
+------
+The demo intentionally runs two invoices from the same vendor to show measurable improvement.
+
+▶️ Run #1 — Before Learning
+
+1. No memory exists
+2. System recalls nothing
+3. Human review is required
+
+▶️ Run #2 — After Learning
+
+1. Vendor memory is recalled
+2. serviceDate is auto-suggested
+3. Human review is no longer required
+
+🗄️ Persistence & Auditability
+---------
+1. Uses SQLite for memory persistence
+2. Memory survives across runs
+3. All learning is inspectable via database
+4. No destructive mutation of invoices
+
+SELECT * FROM vendor_memory;
+
+
+⚙️ How to Run
+--------------
+
+1️⃣ Install dependencies
 
 npm install
 
+2️⃣ Run the demo
 
-##Run the demo:
+npx ts-node src/demoRunner.ts
 
-ts-node demoRunner.ts
+or
 
-##Technologies Used:
+npm run demo
 
-TypeScript (Strict Mode)
+Clone:
+==
+git clone https://github.com/Sayyoni-Parate/Flowbit-engine.git
 
-Node.js
-
-SQLite/Postgres (for memory persistence)
-
-Custom Heuristics (No machine learning models)
